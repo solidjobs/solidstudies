@@ -21,3 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/ping', function () {
     return \response()->json(['PONG']);
 });
+
+Route::get('/info', function () {
+    phpinfo();
+});
