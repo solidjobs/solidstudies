@@ -14,10 +14,13 @@ services:
         restart: always
 
     web:
-        image: php:7.3
+        image: php:7.4-apache
         container_name: docker-php
         ports:
-            - "8000:8000"
+            - "8000:80"
+            - "8001:8001"
+        expose:
+          - "8001"
         volumes:
             - ./:/var/www/html
         links:
