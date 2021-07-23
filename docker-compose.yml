@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+    mysql:
+        image: mysql:5.6
+        container_name: docker-mysql
+        environment:
+            MYSQL_DATABASE: 'solid_studies'
+            MYSQL_USER: 'app'
+            MYSQL_PASSWORD: 'my_password'
+            MYSQL_ROOT_PASSWORD: 'my_password'
+        ports:
+            - "33061:3306"
+        restart: always
+
+    web:
+        image: php:7.3
+        container_name: docker-php
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./:/var/www/html
+        links:
+            - mysql
