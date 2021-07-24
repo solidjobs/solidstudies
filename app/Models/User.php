@@ -17,6 +17,7 @@ use Ramsey\Collection\Collection;
  * @property string $email
  * @property string $password
  * @property string $session
+ * @property string $api_token
  */
 class User extends Authenticatable
 {

@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +22,14 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->start();
             $request->session()->regenerate();
+            /** @var User $user */
+            $user = $request->user();
+            $user->api_token = $request->session()->getId();
+            $user->save();
 
-            return $response->setContent(['session' => $request->session()->getId()]);
+            return $response->setContent([
+                'session' => $request->session()->getId()
+            ]);
         }
 
         return $response->setContent([

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Middleware\LoadUserFromToken;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/user', function (Request $request) {
+    return $request->session()->get('user');
+})->middleware([LoadUserFromToken::class]);
 
 Route::group([
     'prefix' => 'auth'
@@ -26,8 +28,6 @@ Route::group([
         LoginController::class,
         'authenticate'
     ]);
-
-    Route::post('signup', 'AuthController@signUp');
 
     Route::group([
         'middleware' => 'auth:api'

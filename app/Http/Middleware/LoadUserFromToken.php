@@ -22,7 +22,8 @@ class LoadUserFromToken
         if ($request->hasHeader(self::TOKEN_HEADER_KEY)) {
             $token = $request->header(self::TOKEN_HEADER_KEY);
 
-            $user = User::query()->find(['session' => $token])->first();
+            $user = User::query()->where('api_token', $token)->first();
+            $request->session()->put('user', $user);
         }
 
         return $next($request);
