@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\LoadUserFromToken;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -45,4 +46,24 @@ Route::get('/ping', function () {
 
 Route::get('/info', function () {
     phpinfo();
+});
+
+Route::group([
+    'prefix' => 'subject',
+    'middleware' => LoadUserFromToken::class
+], function () {
+    Route::post('', [
+        SubjectController::class,
+        'create'
+    ]);
+
+    Route::get('{id?}', [
+        SubjectController::class,
+        'index'
+    ]);
+
+    Route::put('{id}', [
+        SubjectController::class,
+        'edit'
+    ]);
 });

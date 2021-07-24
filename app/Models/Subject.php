@@ -24,7 +24,7 @@ class Subject extends Model
      */
     public function questions()
     {
-        return $this->hasMany('App\Question', 'subject_id');
+        return $this->hasMany(Question::class, 'subject_id');
     }
 
     /**
@@ -32,6 +32,6 @@ class Subject extends Model
      */
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->hasOne(User::class);
     }
 }
