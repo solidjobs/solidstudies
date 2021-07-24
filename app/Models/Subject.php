@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Ramsey\Collection\Collection;
 
 /**
@@ -12,6 +13,7 @@ use Ramsey\Collection\Collection;
  * @package App\Models
  *
  * @property string $name
+ * @property User $user
  */
 class Subject extends Model
 {
@@ -23,5 +25,13 @@ class Subject extends Model
     public function questions()
     {
         return $this->hasMany('App\Question', 'subject_id');
+    }
+
+    /**
+     * @return HasOne|User
+     */
+    public function user()
+    {
+        return $this->hasOne('App\User');
     }
 }
