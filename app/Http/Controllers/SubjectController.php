@@ -66,6 +66,19 @@ class SubjectController extends Controller
         return $subject;
     }
 
+    public function delete(Request $request, int $id)
+    {
+        /** @var Subject $subject */
+        $subject = Subject::query()
+            ->where('id', '=', $id)
+            ->where('user_id', '=', $request->session()->get('user')->id)
+            ->first();
+
+        $subject->delete();
+
+        return [];
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -61,6 +61,11 @@ Route::group([
         'index'
     ]);
 
+    Route::delete('{id}', [
+        SubjectController::class,
+        'delete'
+    ]);
+
     Route::put('{id}', [
         SubjectController::class,
         'edit'

@@ -35,4 +35,12 @@ class Subject extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function(Subject $subject) {
+            $subject->questions()->delete();
+        });
+    }
 }
