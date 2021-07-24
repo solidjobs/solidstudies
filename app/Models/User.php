@@ -9,6 +9,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Ramsey\Collection\Collection;
 
+/**
+ * Class User
+ * @package App\Models
+ *
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $session
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
