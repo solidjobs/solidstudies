@@ -14,6 +14,7 @@ use Ramsey\Collection\Collection;
  *
  * @property string $name
  * @property User $user
+ * @property int $user_id
  */
 class Subject extends Model
 {

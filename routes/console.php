@@ -27,6 +27,7 @@ Artisan::command('user:create {name} {email} {password}', function() {
     $user->email = $this->argument('email');
     $user->password = Hash::make($this->argument('password'));
     $user->session = '';
+    $user->setCreatedAt(time());
 
     $user->save();
 });

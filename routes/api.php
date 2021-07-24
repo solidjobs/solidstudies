@@ -3,7 +3,6 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\LoadUserFromToken;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
