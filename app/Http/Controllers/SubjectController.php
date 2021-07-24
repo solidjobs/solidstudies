@@ -30,15 +30,40 @@ class SubjectController extends Controller
         return $out;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param null $id
-     * @return void
-     */
-    public function create($id = null)
+    public function create(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required']
+        ]);
+
+        $subject = new Subject();
+
+        $subject->name = $data['name'];
+        $subject->setCreatedAt(time());
+        $subject->user_id = $request->session()->get('user')->id;
+
+        $subject->save();
+
+        return $subject;
+    }
+
+    public function edit(Request $request, int $id)
+    {
+        $data = $request->validate([
+            'name' => ['required']
+        ]);
+
+        /** @var Subject $subject */
+        $subject = Subject::query()
+            ->where('id', '=', $id)
+            ->where('user_id', '=', $request->session()->get('user')->id)
+            ->first();
+
+        $subject->name = $data['name'];
+
+        $subject->save();
+
+        return $subject;
     }
 
     /**
@@ -59,17 +84,6 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Subject $subject)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Subject $subject)
     {
         //
     }
