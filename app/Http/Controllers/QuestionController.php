@@ -154,4 +154,43 @@ class QuestionController extends Controller
 
         return $question;
     }
+
+    public function actionAnswerQuestion(Request $request, int $questionId)
+    {
+        $userId = $request->session()->get('user')->id;
+
+        /** @var Question $question */
+        $question = Question::query()->with('subjects')->where('id', '=', $questionId);
+
+        /** @var Subject $subject */
+        $subject = Subject::query()->where('id', '=', $question->subject_id);
+
+        if ($subject->user_id != $userId) {
+            throw new UnauthorizedException();
+        }
+
+        $data = $request->validate([
+            'responseIndex' => ['required', 'integer']
+        ]);
+
+        /** @var int $responseIndex */
+        $responseIndex = $data['responseIndex'];
+        $responseIsCorrect = $question->correct_response == $responseIndex;
+
+        $question->tries += 1;
+
+        if ($responseIsCorrect) {
+            $question->success += 1;
+        }
+
+        $question->ratio = (int) ($question->success / $question->tries);
+        $question->updateTimestamps();
+
+        $question->save();
+
+        return [
+            'question' => $question,
+            'success' => $responseIsCorrect
+        ];
+    }
 }
