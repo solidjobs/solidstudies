@@ -101,4 +101,9 @@ Route::group([
         QuestionController::class,
         'actionGetNextQuestion'
     ]);
+
+    Route::post('answerQuestion/{questionId}', [
+        QuestionController::class,
+        'actionAnswerQuestion'
+    ]);
 });
