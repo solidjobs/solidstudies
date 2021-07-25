@@ -137,48 +137,21 @@ class QuestionController extends Controller
         return [];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function actionGetNextQuestion(Request $request, ?int $subjectId = null)
     {
-        //
-    }
+        $userId = $request->session()->get('user')->id;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Question $question)
-    {
-        //
-    }
+        $questionQuery = Question::query()
+            ->join('subjects', 'subjects.user_id', '=', $userId);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Question $question)
-    {
-        //
-    }
+        if (!is_null($subjectId)) {
+            $questionQuery = $questionQuery->where('subject_id', '=', $subjectId);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Question $question)
-    {
-        //
+        /** @var Question $question */
+        $question = $questionQuery->where('updated_at', '<', time() - 3600)
+        ->orderBy('ratio')->first();
+
+        return $question;
     }
 }

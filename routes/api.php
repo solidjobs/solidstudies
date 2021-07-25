@@ -96,4 +96,9 @@ Route::group([
         QuestionController::class,
         'delete'
     ]);
+
+    Route::post('getNextQuestion', [
+        QuestionController::class,
+        'actionGetNextQuestion'
+    ]);
 });
