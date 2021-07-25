@@ -30,6 +30,6 @@ class Question extends Model
      */
     public function subject()
     {
-        return $this->hasOne('App\Subject');
+        return $this->hasOne(Subject::class);
     }
 }

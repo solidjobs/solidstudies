@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Middleware\LoadUserFromToken;
 use Illuminate\Http\Request;
@@ -69,5 +70,30 @@ Route::group([
     Route::put('{id}', [
         SubjectController::class,
         'edit'
+    ]);
+});
+
+Route::group([
+    'prefix' => 'question',
+    'middleware' => LoadUserFromToken::class
+], function () {
+    Route::post('', [
+        QuestionController::class,
+        'create'
+    ]);
+
+    Route::get('{id}', [
+        QuestionController::class,
+        'index'
+    ]);
+
+    Route::put('{id}', [
+        QuestionController::class,
+        'edit'
+    ]);
+
+    Route::delete('{id}', [
+        QuestionController::class,
+        'delete'
     ]);
 });
