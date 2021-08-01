@@ -39,10 +39,7 @@ class QuestionController extends Controller
             'question_html' => ['required'],
             'responses' => ['required'],
             'correct_response' => ['required'],
-            'explanation_html' => ['required'],
-            'tries' => ['required'],
-            'success' => ['required'],
-            'ratio' => ['required']
+            'explanation_html' => ['required']
         ]);
 
         /** @var Subject $subject */
@@ -62,9 +59,9 @@ class QuestionController extends Controller
         $question->responses = $data['responses'];
         $question->correct_response = $data['correct_response'];
         $question->explanation_html = $data['explanation_html'];
-        $question->tries = $data['tries'];
-        $question->success = $data['success'];
-        $question->ratio = $data['ratio'];
+        $question->tries = 0;
+        $question->success = 0;
+        $question->ratio = 0;
 
         $question->save();
 

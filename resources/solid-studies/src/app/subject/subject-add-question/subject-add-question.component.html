@@ -1,19 +1,34 @@
 <form [formGroup]="questionForm" (ngSubmit)="saveQuestion()">
 
+  <mat-error *ngIf="this.error">
+    Ocurrió un error enviando la pregunta.
+  </mat-error>
+
   <mat-form-field>
     <input matInput placeholder="Pregunta" formControlName="question" required>
     <mat-error>Por favor, escriba una pregunta</mat-error>
-  </mat-form-field>
-
-  <mat-form-field *ngFor="let response of this.responses">
-    <input matInput placeholder="Respuesta..." [formControlName]="response" required>
-    <mat-error>Escribe una respuesta.</mat-error>
   </mat-form-field>
 
   <div>
     <span (click)="addResponse()"> + Añadir respuesta</span>
   </div>
 
-  <button mat-raised-button>Guardar nueva pregunta</button>
+  <mat-form-field *ngFor="let response of this.responses">
+    <input matInput placeholder="Respuesta..." [formControlName]="response" required>
+    <mat-error>Escribe una respuesta.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="number" formControlName="correct" placeholder="Respuesta correcta" value="0" required/>
+    <mat-error>Obligatorio</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="explanation" placeholder="Explicación" required/>
+    <mat-error>Obligatorio</mat-error>
+  </mat-form-field>
+
+  <button *ngIf="!loading" mat-raised-button>Guardar nueva pregunta</button>
+  <mat-spinner *ngIf="loading"></mat-spinner>
 
 </form>

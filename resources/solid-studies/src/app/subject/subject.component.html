@@ -24,7 +24,7 @@
         <app-subject-add-question *ngIf="showAddQuestions" [subjectId]="subject.id"></app-subject-add-question>
       </div>
       <mat-divider></mat-divider>
-      <div style="padding: 5px" *ngFor="let question of subject.questions">
+      <div style="padding: 10px" *ngFor="let question of subject.questions">
         <strong>{{ question.question_text }}</strong>
         <ul>
           <li *ngFor="let response of question.responses; index as i">
@@ -34,7 +34,8 @@
             </span>
           </li>
         </ul>
-        <mat-divider></mat-divider>
+        <span>Explanation: {{ question.explanation_html }}</span>
+        <mat-divider style="margin-top: 10px"></mat-divider>
       </div>
     </mat-card-content>
   </mat-card>
