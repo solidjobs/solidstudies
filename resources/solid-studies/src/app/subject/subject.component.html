@@ -1,0 +1,38 @@
+<div *ngIf="error">
+  <mat-error>No se ha podido cargar bien el temario.</mat-error>
+</div>
+
+<div *ngIf="!subject">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="subject">
+  <mat-card>
+    <h1>{{ subject.name }}</h1>
+    <mat-card-header>
+      <mat-card-title>
+        {{ this.subject.questions.length }} preguntas
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <div style="padding: 20px 0;">
+        <button mat-raised-button>Estudiar</button>
+        <button mat-button>Añadir pregunta</button>
+      </div>
+      <mat-divider></mat-divider>
+      <div style="padding: 5px" *ngFor="let question of subject.questions">
+        <strong>{{ question.question_text }}</strong>
+        <ul>
+          <li *ngFor="let response of question.responses; index as i">
+            {{ response }}
+            <span *ngIf="i == question.correct_response">
+              *
+            </span>
+          </li>
+        </ul>
+        <mat-divider></mat-divider>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

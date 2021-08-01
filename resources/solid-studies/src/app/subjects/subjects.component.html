@@ -1,5 +1,8 @@
 <h1>Temas</h1>
 
+<div *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
 <div>
   <mat-card *ngFor="let subject of this.subjects">
     <mat-card-content (click)="this.navigateToSubject(subject.id)">

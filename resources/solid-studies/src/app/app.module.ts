@@ -11,15 +11,18 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
-import {LoginService} from "./services/login.service";
+import {LoginService} from "./_Services/login.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { SubjectsComponent } from './subjects/subjects.component';
+import { SubjectComponent } from './subject/subject.component';
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SubjectsComponent
+    SubjectsComponent,
+    SubjectComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { SubjectsComponent } from './subjects/subjects.component';
     MatInputModule,
     MatButtonModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDividerModule
   ],
   providers: [
     LoginService

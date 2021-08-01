@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SubjectService} from "../services/subject.service";
+import {SubjectService} from "../_Services/subject.service";
 import {Router} from "@angular/router";
 
 interface SubjectElement {
@@ -17,6 +17,7 @@ interface SubjectElement {
 })
 export class SubjectsComponent implements OnInit {
 
+  loading = false;
   subjects: SubjectElement[] = [];
 
   constructor(
@@ -33,12 +34,15 @@ export class SubjectsComponent implements OnInit {
   }
 
   loadSubjectList() {
+    this.loading = true;
     this.subjectService.getSubjectList().subscribe(
       (ok) => {
         this.subjects = ok;
+        this.loading = false;
       },
       (ko) => {
         console.log('An error happened loading the subjects', ko);
+        this.loading = false;
       }
     );
   }
