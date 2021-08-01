@@ -3,6 +3,17 @@
 <div *ngIf="loading">
   <mat-spinner></mat-spinner>
 </div>
+<mat-card>
+  <form [formGroup]="newSubject" (ngSubmit)="createSubject()">
+    <mat-error *ngIf="newSubjectError">Hubo un error intentando crear el nuevo tema</mat-error>
+    <mat-form-field>
+      <input matInput formControlName="name" placeholder="Nombre del tema" required />
+      <mat-error>El campo es erróneo</mat-error>
+    </mat-form-field>
+
+    <button *ngIf="!loading" mat-button>Crear nuevo tema</button>
+  </form>
+</mat-card>
 <div>
   <mat-card *ngFor="let subject of this.subjects">
     <mat-card-content (click)="this.navigateToSubject(subject.id)">

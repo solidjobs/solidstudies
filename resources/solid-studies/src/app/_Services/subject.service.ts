@@ -52,4 +52,14 @@ export class SubjectService {
       return subject;
     }));
   }
+
+  public createSubject(name: string): Observable<any> {
+    return this.http.post(environment.apiUrl + '/subject', {
+      name
+    }, {
+      headers: {
+        token: localStorage.getItem(environment.sessionKey)
+      }
+    });
+  }
 }
