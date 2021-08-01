@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "../services/login.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
         console.log('Ok: ', ok);
 
         if (ok.hasOwnProperty('session')) {
-          localStorage.setItem('solidstudies-session', ok.session);
+          localStorage.setItem(environment.sessionKey, ok.session);
           this.success = true;
         } else {
           this.error = true;

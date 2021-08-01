@@ -13,11 +13,13 @@ import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
 import {LoginService} from "./services/login.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { SubjectsComponent } from './subjects/subjects.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    SubjectsComponent
   ],
   imports: [
     BrowserModule,

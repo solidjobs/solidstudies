@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 
 class LoadUserFromToken
 {
@@ -23,6 +24,11 @@ class LoadUserFromToken
             $token = $request->header(self::TOKEN_HEADER_KEY);
 
             $user = User::query()->where('api_token', $token)->first();
+
+            if (!$user) {
+                throw new UnauthorizedException('Login required');
+            }
+
             $request->session()->put('user', $user);
         }
 

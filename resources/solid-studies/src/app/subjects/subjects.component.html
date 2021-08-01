@@ -1,0 +1,10 @@
+<h1>Temas</h1>
+
+<div>
+  <mat-card *ngFor="let subject of this.subjects">
+    <mat-card-content (click)="this.navigateToSubject(subject.id)">
+      <mat-card-title>{{ subject.name }}</mat-card-title>
+      <mat-card-subtitle>{{ subject.updated_at }}</mat-card-subtitle>
+    </mat-card-content>
+  </mat-card>
+</div>
