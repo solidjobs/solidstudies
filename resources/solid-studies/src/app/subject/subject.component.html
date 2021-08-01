@@ -18,7 +18,10 @@
       <mat-divider></mat-divider>
       <div style="padding: 20px 0;">
         <button mat-raised-button>Estudiar</button>
-        <button mat-button>Añadir pregunta</button>
+        <button (click)="showAddQuestions = !showAddQuestions" mat-button>Añadir pregunta</button>
+      </div>
+      <div style="padding: 10px 0;">
+        <app-subject-add-question *ngIf="showAddQuestions" [subjectId]="subject.id"></app-subject-add-question>
       </div>
       <mat-divider></mat-divider>
       <div style="padding: 5px" *ngFor="let question of subject.questions">

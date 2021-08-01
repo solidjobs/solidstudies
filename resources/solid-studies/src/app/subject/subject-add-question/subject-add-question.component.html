@@ -1,0 +1,19 @@
+<form [formGroup]="questionForm" (ngSubmit)="saveQuestion()">
+
+  <mat-form-field>
+    <input matInput placeholder="Pregunta" formControlName="question" required>
+    <mat-error>Por favor, escriba una pregunta</mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngFor="let response of this.responses">
+    <input matInput placeholder="Respuesta..." [formControlName]="response" required>
+    <mat-error>Escribe una respuesta.</mat-error>
+  </mat-form-field>
+
+  <div>
+    <span (click)="addResponse()"> + Añadir respuesta</span>
+  </div>
+
+  <button mat-raised-button>Guardar nueva pregunta</button>
+
+</form>

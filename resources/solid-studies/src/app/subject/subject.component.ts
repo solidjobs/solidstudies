@@ -10,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SubjectComponent implements OnInit {
 
+  showAddQuestions = false;
   subject: Subject;
   error = false;
 

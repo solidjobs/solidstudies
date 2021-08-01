@@ -16,13 +16,15 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { SubjectsComponent } from './subjects/subjects.component';
 import { SubjectComponent } from './subject/subject.component';
 import {MatDividerModule} from "@angular/material/divider";
+import { SubjectAddQuestionComponent } from './subject/subject-add-question/subject-add-question.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SubjectsComponent,
-    SubjectComponent
+    SubjectComponent,
+    SubjectAddQuestionComponent
   ],
   imports: [
     BrowserModule,
