@@ -97,9 +97,9 @@ Route::group([
         'delete'
     ]);
 
-    Route::post('getNextQuestion/{subjectId?}', [
+    Route::get('nextQuestion/{subjectId?}', [
         QuestionController::class,
-        'actionGetNextQuestion'
+        'actionNextQuestion'
     ]);
 
     Route::post('answerQuestion/{questionId}', [

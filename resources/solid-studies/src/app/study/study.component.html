@@ -1,43 +1,44 @@
-<div class="question">
-  <mat-card>
-    <mat-card-content>
-      <mat-card-title>
-        ¿Es esta una pregunta?
-      </mat-card-title>
-    </mat-card-content>
+<div class="loading" *ngIf="loading">
+  <mat-spinner *ngIf="!notFound"></mat-spinner>
+
+  <mat-card *ngIf="notFound">
+    <div>No se han encontrado preguntas, vuelve en 30 minutos.</div>
+    <div [align]="'end'">
+      <button mat-button (click)="onClickNext()">Recargar</button>
+    </div>
   </mat-card>
 </div>
-
-<div class="responses">
-  <mat-card>
-    <mat-card-content>
-      Los controles de este tipo de cosas significan o implican otro cierto
-      número de incidencias relacionada con la incidencia padre pero no con las incidencias
-      hijas que requerirán de un nivel mayor de soporte técnico.
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content>
-      Los controles de este tipo de cosas significan o implican otro cierto
-      número de incidencias relacionada con la incidencia padre pero no con las incidencias
-      hijas que requerirán de un nivel mayor de soporte técnico.
-    </mat-card-content>
-  </mat-card>
-</div>
-
-
-<div class="explanation">
-  <div mat-dialog-actions [align]="'end'">
-    <button mat-raised-button>Siguiente</button>
+<div *ngIf="!loading">
+  <div class="question">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          <div [innerHTML]="currentQuestion.question_html"></div>
+        </mat-card-title>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <mat-card>
-    <mat-card-content>
-      <mat-card-title>
-        Explicación:
-      </mat-card-title>
-      <p>
-        asdasdasd
-      </p>
-    </mat-card-content>
-  </mat-card>
+
+  <div class="responses">
+    <mat-card *ngFor="let response of currentQuestion.responses; let i = index">
+      <mat-card-content>
+        <div (click)="onClickResponse(i)" [style.color]="getColorByAnswerIndex(i)" [innerHTML]="response"></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="explanation" *ngIf="answer !== null">
+    <div mat-dialog-actions [align]="'end'" (click)="onClickNext()">
+      <button mat-raised-button>Siguiente</button>
+    </div>
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          Explicación:
+        </mat-card-title>
+        <div [innerHTML]="currentQuestion.explanation_html"></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
 </div>

@@ -30,6 +30,8 @@ class LoadUserFromToken
             }
 
             $request->session()->put('user', $user);
+        } else {
+            throw new UnauthorizedException('No session started');
         }
 
         return $next($request);

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\Subject;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class QuestionController extends Controller
 {
@@ -134,44 +136,63 @@ class QuestionController extends Controller
         return [];
     }
 
-    public function actionGetNextQuestion(Request $request, ?int $subjectId = null)
+    public function actionNextQuestion(Request $request, int $subjectId = null)
     {
-        $userId = $request->session()->get('user')->id;
+        $user = $request->session()->get('user');
 
-        $questionQuery = Question::query()
-            ->join('subjects', 'subjects.user_id', '=', $userId);
+        if (!$user) {
+            throw new UnauthorizedException();
+        }
+
+        $questionQuery = Question::query()->select([
+            'questions.id as id', 'question_html', 'question_text', 'correct_response',
+            'responses', 'subject_id', 'ratio', 'success', 'tries', 'explanation_html',
+            'questions.created_at as created_at', 'questions.updated_at as updated_at'
+        ])
+            ->join('subjects', 'subjects.id', '=', 'questions.subject_id');
 
         if (!is_null($subjectId)) {
-            $questionQuery = $questionQuery->where('subject_id', '=', $subjectId);
+            $questionQuery = $questionQuery->where('questions.subject_id', '=', $subjectId);
         }
 
         /** @var Question $question */
-        $question = $questionQuery->where('updated_at', '<', time() - 3600)
-        ->orderBy('ratio')->first();
+        $question = $questionQuery
+            ->where('subjects.user_id', '=', $user->id)
+            ->where('questions.updated_at', '<', Carbon::now('UTC')->subMinutes(30))
+            ->orderBy('questions.ratio')
+            ->first();
+
+        if (!$question) {
+            throw new NotFoundHttpException();
+        }
 
         return $question;
     }
 
     public function actionAnswerQuestion(Request $request, int $questionId)
     {
-        $userId = $request->session()->get('user')->id;
+        $user = $request->session()->get('user');
 
-        /** @var Question $question */
-        $question = Question::query()->with('subjects')->where('id', '=', $questionId);
-
-        /** @var Subject $subject */
-        $subject = Subject::query()->where('id', '=', $question->subject_id);
-
-        if ($subject->user_id != $userId) {
+        if (!$user) {
             throw new UnauthorizedException();
         }
 
         $data = $request->validate([
-            'responseIndex' => ['required', 'integer']
+            'index' => ['required', 'integer']
         ]);
 
+        /** @var Question $question */
+        $question = Question::query()->where('id', '=', $questionId)->first();
+
+        /** @var Subject $subject */
+        $subject = Subject::query()->where('id', '=', $question->subject_id)->first();
+
+        if ($subject->user_id != $user->id) {
+            throw new UnauthorizedException();
+        }
+
         /** @var int $responseIndex */
-        $responseIndex = $data['responseIndex'];
+        $responseIndex = $data['index'];
         $responseIsCorrect = $question->correct_response == $responseIndex;
 
         $question->tries += 1;
@@ -180,7 +201,7 @@ class QuestionController extends Controller
             $question->success += 1;
         }
 
-        $question->ratio = (int) ($question->success / $question->tries);
+        $question->ratio = (int) (($question->success / $question->tries) * 1000);
         $question->updateTimestamps();
 
         $question->save();
