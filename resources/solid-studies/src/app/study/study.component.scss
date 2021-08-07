@@ -1,0 +1,21 @@
+.question {
+  margin-bottom: 5px;
+  mat-card-title {
+    font-size: 14px;
+  }
+}
+
+.responses {
+  margin-bottom: 5px;
+  mat-card {
+    margin: 5px;
+    cursor: pointer;
+  }
+}
+
+.explanation {
+  margin-bottom: 5px;
+  button {
+    margin-bottom: 5px;
+  }
+}
